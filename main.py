@@ -36,16 +36,26 @@ price_property_id = database_retrieve_response_json["properties"][price_property
 price_target_property_id = database_retrieve_response_json["properties"][price_target_property_name]["id"]
 type_property_id = database_retrieve_response_json["properties"][type_property_name]["id"]
 
-# query the database and retrieve a list of all the pages inside that represent stocks
-# filtered by Type = Stock
+# query the database and retrieve a list of all the pages inside that represent stocks or ETFs
+# filtered by Type = Stock or ETF
 # sorted by stock symbol
 database_query_url = notion_base_url + "databases/" + database_id + "/query"
 database_query_payload = {
     "filter": {
-        "property": type_property_name, 
-        "select": {
-            "equals": "Stock"
-        }
+        "or": [
+            {
+                "property": type_property_name, 
+                "select": {
+                    "equals": "Stock"
+                } 
+            }, 
+            {
+                "property": type_property_name, 
+                "select": {
+                    "equals": "ETF"
+                } 
+            }
+        ]
     }, 
     "sorts": [
         {
