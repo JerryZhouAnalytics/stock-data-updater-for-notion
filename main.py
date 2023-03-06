@@ -93,7 +93,10 @@ for page in database_query_response_json['results']:
     
     # get the current stock price
     price_tag = webpage_doc.find('fin-streamer', {'class': "Fw(b) Fz(36px) Mb(-4px) D(ib)"}) # extract the html tag containing the stock price
-    price_new = float(price_tag.text)
+    try:
+        price_new = float(price_tag.text) 
+    except:
+        price_new = None # return empty if the price is not available
 
     # get the current average stock price target (if available)
     price_target_tag = webpage_doc.find('td', {'class': "Ta(end) Fw(600) Lh(14px)", 'data-test': "ONE_YEAR_TARGET_PRICE-value"}) # extract the html tag containing the stock price target
